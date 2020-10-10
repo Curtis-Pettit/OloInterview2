@@ -15,9 +15,7 @@ namespace OloInterviewPart2
         [TestMethod]
         public void GetTest()
         {
-            RestRequest request = new RestRequest();
-            RestClient.UseNewtonsoftJson();
-            var result = RestClient.Get<List<Post>>(request);
+            var result = RestClient.Get<List<Post>>(GetRequest(string.Empty));
             Assert.IsNotNull(result);
             TestContext.WriteLine(result.ToString());
 
@@ -34,13 +32,7 @@ namespace OloInterviewPart2
         [TestMethod]
         public void GetSpecificTest()
         {
-            RestRequest request = new RestRequest
-            {
-                Resource = "2"
-            };
-            RestClient.UseNewtonsoftJson();
-
-            var result = RestClient.Get<Post>(request);
+            var result = RestClient.Get<Post>(GetRequest("2"));
 
             Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
             Assert.IsNotNull(result.Data);
@@ -56,14 +48,8 @@ namespace OloInterviewPart2
         [TestMethod]
         public void GetSpecificLeadingZerosTest()
         {
-            RestRequest request = new RestRequest
-            {
-                Resource = "02"
-            };
-
-            RestClient.UseNewtonsoftJson();
-            var result = RestClient.Get<Post>(request);
-
+            var result = RestClient.Get<Post>(GetRequest("02"));
+            
             Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
             Assert.IsNotNull(result.Data);
 

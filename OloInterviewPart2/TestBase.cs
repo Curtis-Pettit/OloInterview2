@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using RestSharp.Serializers.NewtonsoftJson;
 
 namespace OloInterviewPart2
 {
@@ -18,6 +16,16 @@ namespace OloInterviewPart2
             RestClient = new RestClient("https://jsonplaceholder.typicode.com/posts");
 
             TestContext = testContext;
+        }
+
+        protected RestRequest GetRequest(string postId)
+        {
+            RestRequest request = new RestRequest
+            {
+                Resource = postId
+            };
+            RestClient.UseNewtonsoftJson();
+            return request;
         }
     }
 }
