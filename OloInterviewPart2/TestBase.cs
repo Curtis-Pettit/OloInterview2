@@ -17,9 +17,7 @@ namespace OloInterviewPart2
         {
             RestClient = new RestClient("https://jsonplaceholder.typicode.com/posts");
 
-
             TestContext = testContext;
         }
-
     }
 }
