@@ -1,6 +1,8 @@
-﻿namespace OloInterviewPart2
+﻿using System;
+
+namespace OloInterviewPart2
 {
-    internal class Post
+    public class Post
     {
         public int Id;
         public int UserId;
@@ -17,6 +19,12 @@
                     Body == asPost.Body;
             }
             return false;
+        }
+
+        public override string ToString()
+        {
+            return $"Id: {Id} Title: {Title} User: {UserId}{Environment.NewLine}" +
+                $"{Body}";
         }
     }
 }

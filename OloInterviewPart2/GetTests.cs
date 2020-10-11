@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Net;
 
@@ -15,14 +16,14 @@ namespace OloInterviewPart2
         public void GetTest()
         {
             var result = RestClient.Get<List<Post>>(GetRequest(string.Empty));
-            Assert.IsNotNull(result);
-            TestContext.WriteLine(result.ToString());
+
+            LogGetResult(result);
 
             //TODO no good once i start posting and deleting things
-            Assert.AreEqual(100, result.Data.Count);
+            Assert.AreEqual(100, result.Data.Count, "Expected to return 100 results");
 
-            Assert.AreEqual(1, result.Data[0].Id);
-            Assert.AreEqual(1, result.Data[0].UserId);
+            Assert.AreEqual(1, result.Data[0].Id, "First post wasn't Id 1");
+            Assert.AreEqual(1, result.Data[0].UserId, "First post wasnt user 1");
             Assert.AreEqual("sunt aut facere repellat provident occaecati excepturi optio reprehenderit", result.Data[0].Title);
             Assert.AreEqual("quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
                 result.Data[0].Body);
@@ -32,12 +33,8 @@ namespace OloInterviewPart2
         public void GetSpecificTest()
         {
             var result = RestClient.Get<Post>(GetRequest("2"));
+            LogGetResult(result);
 
-            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
-            Assert.IsNotNull(result.Data);
-
-            TestContext.WriteLine(result.ToString());
-            
             Assert.AreEqual(2, result.Data.Id);
             Assert.AreEqual(1, result.Data.UserId);
             Assert.AreEqual(post2Title, result.Data.Title);
@@ -48,11 +45,7 @@ namespace OloInterviewPart2
         public void GetSpecificLeadingZerosTest()
         {
             var result = RestClient.Get<Post>(GetRequest("02"));
-            
-            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
-            Assert.IsNotNull(result.Data);
-
-            TestContext.WriteLine(result.ToString());
+            LogGetResult(result);
 
             Assert.AreEqual(2, result.Data.Id);
             Assert.AreEqual(1, result.Data.UserId);
@@ -67,7 +60,7 @@ namespace OloInterviewPart2
             request.AddParameter("userId", "2");
             var result = RestClient.Get<List<Post>>(request);
 
-            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
+            LogGetResult(result);
 
             //TODO it would be better to test for an exact list but I cant control the data in this endpoint
             CollectionAssert.AllItemsAreInstancesOfType(result.Data, typeof(Post));
@@ -93,7 +86,8 @@ namespace OloInterviewPart2
             request.AddParameter("title", title);
             var result = RestClient.Get<List<Post>>(request);
 
-            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
+            LogGetResult(result);
+
             Assert.AreEqual(1, result.Data.Count);
             Assert.AreEqual(23, result.Data[0].Id);
             Assert.AreEqual(title, result.Data[0].Title);

@@ -1,6 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
 using RestSharp.Serializers.NewtonsoftJson;
+using System;
+using System.Collections.Generic;
+using System.Net;
 
 namespace OloInterviewPart2
 {
@@ -26,6 +29,20 @@ namespace OloInterviewPart2
             };
             RestClient.UseNewtonsoftJson();
             return request;
+        }
+
+        protected void LogGetResult(IRestResponse<Post> result)
+        {
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
+            Assert.IsNotNull(result.Data, $"Failed to deserailize. Content was: {result.Content}");
+            TestContext.WriteLine($"Get returned: {Environment.NewLine}" + result.Data);
+        }
+
+        protected void LogGetResult(IRestResponse<List<Post>> result)
+        {
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
+            Assert.IsNotNull(result.Data, $"Failed to deserailize. Content was: {result.Content}");
+            TestContext.WriteLine($"Get returned: {Environment.NewLine}" + string.Join(Environment.NewLine, result.Data));
         }
     }
 }
