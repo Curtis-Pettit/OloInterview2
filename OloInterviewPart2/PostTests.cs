@@ -53,12 +53,15 @@ namespace OloInterviewPart2
             Assert.AreNotEqual(10, result.Data.Id);
         }
 
-        [TestMethod]
-        public void EmptyTitleRejectedTest()
+        [DataTestMethod]
+        [DataRow("")]
+        [DataRow("  ")]
+        [DataRow(null)]
+        public void EmptyTitleRejectedTest(string title)
         {
             var post = new Post
             {
-                Title = string.Empty,
+                Title = title,
                 Body = "Test body",
                 UserId = 1
             };
