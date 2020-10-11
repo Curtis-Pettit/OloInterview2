@@ -144,7 +144,7 @@ namespace OloInterviewPart2
         private Post GetCreatedPost(int postId)
         {
             var getResponse = RestClient.Execute<Post>(GetRequest(postId.ToString()));
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, getResponse.StatusCode, $"Error retreiveing the post just created with Id {postId}");
+            Assert.AreEqual(HttpStatusCode.OK, getResponse.StatusCode, $"Error retreiveing the post just created with Id {postId}");
             return getResponse.Data;
         }
 

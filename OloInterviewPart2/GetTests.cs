@@ -1,8 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
-using System;
 using System.Collections.Generic;
-using System.Net;
 
 namespace OloInterviewPart2
 {
